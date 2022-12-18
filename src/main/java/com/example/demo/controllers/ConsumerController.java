@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Consumer;
+import com.example.demo.services.AdminService;
 import com.example.demo.services.ConsumerService;
 
 @RestController
@@ -21,6 +22,9 @@ public class ConsumerController {
 	
 	@Autowired
 	ConsumerService consumerService;
+	
+	@Autowired
+	AdminService adminService;
 	
 	@GetMapping("/login")
 	public ResponseEntity<String> consumerLogin(@RequestParam String email, @RequestParam String password) {
@@ -35,7 +39,7 @@ public class ConsumerController {
 	
 	@GetMapping("/view-bills")
 	public List<Map<String,String>> viewAllBills(@RequestParam String email){
-		return consumerService.viewAllBills(email);
+		return adminService.viewAllBillsByConsumerId(email);
 	}
 	
 	@PutMapping("/update-name")

@@ -73,31 +73,6 @@ public class ConsumerService {
 		return new ResponseEntity<String>("You are not logged in. Log In First", HttpStatus.BAD_REQUEST);
 	}
 	
-	//View all Bills by passing Consumer Email
-	public List<Map<String,String>> viewAllBills(String email){
-		List<Bill> records = new ArrayList<Bill>();
-		if(consumerRepository.findById(email).isPresent()) {
-			records =  billRepository.findAll().stream()
-					.filter(bill -> bill.getConsumer().getEmail().equalsIgnoreCase(email))
-					.collect(Collectors.toList());
-		}
-		List<Map<String, String>> result = new ArrayList<>();
-		for (Bill b : records) {
-			
-			Map<String, String> hm = new LinkedHashMap<>();
-			
-			hm.put("Bill Id", String.valueOf(b.getId()));
-			hm.put("email", email);
-			hm.put("billDate", String.valueOf(b.getBillDate()));
-			hm.put("UnitsConsumed", String.valueOf(b.getUnitsConsumed()));
-			hm.put("TotalAmount", String.valueOf(b.getTotalAmount()));	
-			
-			result.add(hm);
-		}
-		
-		return result;
-	}
-	
 	//To change consumer name
 	public ResponseEntity<String> updateName(String email, String name){
 		for (Consumer c : consumerRepository.findAll()) {
