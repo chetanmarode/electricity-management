@@ -43,14 +43,37 @@ public class HelperService{
 		}
 	}
 	
-	
+	//add Bill for each consumer
 	public ResponseEntity<String> addBill(String email, Integer units){
+		
+		//getting consumer_type rate from consumer
 		Double rate = consumerRepository.findById(email).get().getConsumer_type().getRate();
 		Double totalAmount = rate * units;
 		
-		Bill bill = new Bill(1, new Consumer(email), new Date(), units, totalAmount);
-		billRepository.save(bill);
-		System.out.println("Bill added successfully");
+		Date date = new Date();
+		int month = date.getMonth();
+		int year = date.getYear();
+		
+		Bill bills = null;
+		for(Bill b: billRepository.findAll()) {
+			if(b.getConsumer().getEmail().equalsIgnoreCase(email)) {
+				bills = b;
+				break;
+			}
+		}
+		if(bills == null) {
+			Bill bill = new Bill(new Consumer(email), new Date(), units, totalAmount);
+			billRepository.save(bill);
+		}
+		else {
+			if(bills.getBillDate().getMonth() == month && bills.getBillDate().getYear() == year)
+				return new ResponseEntity<String>("Bill already calculated for the particular month of the year.", HttpStatus.BAD_REQUEST);
+			else {
+				Bill bill = new Bill(new Consumer(email), new Date(), units, totalAmount);
+				billRepository.save(bill);
+			}
+		}
+		
 		return new ResponseEntity<String>("Bill added successfully", HttpStatus.ACCEPTED);
 		
 	}

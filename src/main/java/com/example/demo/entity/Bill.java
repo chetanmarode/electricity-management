@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 
 @Entity
 public class Bill {
@@ -30,6 +31,14 @@ public class Bill {
 	public Bill(int id, Consumer consumer, Date billDate, int unitsConsumed, double totalAmount) {
 		super();
 		this.id = id;
+		this.consumer = consumer;
+		this.billDate = billDate;
+		this.unitsConsumed = unitsConsumed;
+		this.totalAmount = totalAmount;
+	}
+	
+	public Bill(Consumer consumer, Date billDate, int unitsConsumed, double totalAmount) {
+		super();
 		this.consumer = consumer;
 		this.billDate = billDate;
 		this.unitsConsumed = unitsConsumed;

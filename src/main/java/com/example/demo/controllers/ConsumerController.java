@@ -1,18 +1,22 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Consumer;
-import com.example.demo.repositories.ConsumerRepository;
 import com.example.demo.services.ConsumerService;
 
 @RestController
+@Validated
 public class ConsumerController {
 	
 	@Autowired
@@ -29,4 +33,18 @@ public class ConsumerController {
 		consumerService.registration(email, name, area_id, consumer_type_id, password);
 	}
 	
+	@GetMapping("/view-bills")
+	public List<Map<String,String>> viewAllBills(@RequestParam String email){
+		return consumerService.viewAllBills(email);
+	}
+	
+	@PutMapping("/update-name")
+	public ResponseEntity<String> updateName(@RequestParam String email, @RequestParam String name){
+		return consumerService.updateName(email, name);
+	}
+	
+	@PutMapping("/update-password")
+	public ResponseEntity<String> updatePassword(@RequestParam String email, @RequestParam String password){
+		return consumerService.updatePassword(email, password);
+	}
 }

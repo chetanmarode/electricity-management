@@ -5,12 +5,15 @@ import java.util.Base64;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 
 
 @Entity
 @Table(name="admin")
 public class Admin {
+	
 	@Id
+	@Email
 	private String email;
 	private String password;
 	private String name;

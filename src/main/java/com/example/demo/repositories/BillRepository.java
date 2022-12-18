@@ -1,5 +1,6 @@
 package com.example.demo.repositories;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -24,5 +25,10 @@ public interface BillRepository extends JpaRepository<Bill, Integer>{
 	
 	@Query("SELECT b FROM Bill b WHERE b.consumer = :consumer")
 	List<Bill> findByEmail(Consumer consumer);
+
+	@Query("SELECT b FROM Bill b WHERE Year(b.billDate) = :year AND Month(b.billDate) = :month")
+	List<Bill> findByMonthAndYear(int month, int year);
+	
+	
 
 }

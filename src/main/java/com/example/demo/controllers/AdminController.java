@@ -2,10 +2,12 @@ package com.example.demo.controllers;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Admin;
+import com.example.demo.entity.Bill;
 import com.example.demo.entity.City;
 import com.example.demo.entity.Consumer;
 import com.example.demo.entity.ConsumerType;
@@ -27,7 +30,7 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 	
-	@GetMapping("/admin/add-admin")
+	@PostMapping("/admin/add-admin")
 	public void addAdmin() {
 		Admin admin1 = new Admin("admin1@gmail.com", "admin@1", "Admin 1");
 		Admin admin2 = new Admin("admin2@gmail.com", "admin@2", "Admin 2");
@@ -38,12 +41,8 @@ public class AdminController {
 		adminService.addAdmin(admin3);
 	}
 	
-	@PostMapping("/admin/register-consumer")
-	public void addConsumer(@RequestBody Consumer consumer) {
-	}
-	
 	@PostMapping("/admin/add-city")
-	public void addCity(@RequestBody City city) {
+	public void addCity(@Valid @RequestBody City city) {
 		adminService.addCity(city);
 	}
 	
@@ -117,18 +116,41 @@ public class AdminController {
 		return adminService.removeConsumer(email);
 	}
 	
+	@GetMapping("/admin/view-bill-by-consumer-id")
+	public List<Map<String, String>> viewBillsByConsumer(@RequestParam String email){
+		return adminService.viewAllBillsByConsumerId(email);
+	}
+	
+	@GetMapping("/admin/view-all-bills")
+	public List<Map<String, String>> viewAllBills(){
+		return adminService.viewAllBills();
+	}
+	
+	//dummy - to be deleted later
+	@GetMapping("/admin/view-bills")
+	public List<Bill> viewBills(){
+		return adminService.viewBills();
+	}
+	
+	@GetMapping("/admin/view-bill-by-city2")
+	public List<String> viewBillsByCity2(@RequestParam String city){
+		return adminService.viewAllBillsByCity2(city);
+	}
+	
+	@GetMapping("/admin/view-bill-by-area")
+	public List<Map<String, String>> viewBillsByArea(@RequestParam String area){
+		return adminService.viewAllBillsByArea(area);
+	}
+	
+	@GetMapping("/admin/view-bill-by-city")
+	public List<Map<String, String>> viewBillsByCity(@RequestParam String city){
+		return adminService.viewAllBillsByCity(city);
+	}
+	
+	@GetMapping("/admin/view-bill-by-month-and-year")
+	public List<Map<String, String>> viewAllBillsByMonthAndYear(@RequestParam int month, @RequestParam int year){
+		return adminService.viewAllBillsByMonthAndYear(month, year);
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

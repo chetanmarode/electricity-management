@@ -20,7 +20,7 @@ public class HelperController {
 	@Autowired(required = true)
 	HelperService helperService;
 	
-	@PutMapping("/helper/add-helper")
+	@PostMapping("/helper/add-helper")
 	public void addHelper() {
 		Helper helper1 = new Helper("helper1@gmail.com", "helper@1", "Helper 1");
 		Helper helper2 = new Helper("helper2@gmail.com", "helper@2", "Helper 2");

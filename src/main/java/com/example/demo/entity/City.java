@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class City {
@@ -15,6 +17,8 @@ public class City {
 	@Id
 	@Column(name="city_id")	
 	private int id;
+	
+	@Size(max = 20, min = 3, message = "City String Size must be between 3 and 20")
 	private String name;
 	
 	@OneToMany(targetEntity = Area.class, cascade = CascadeType.ALL)
