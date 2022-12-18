@@ -97,11 +97,10 @@ public class AdminService {
 	
 	//view all cities
 	public List<Map<String, String>> viewAllCities() {
-		List<City> cities = cityRepository.findAll();
 		
 		List<Map<String, String>> result = new ArrayList<>();
 		
-		for (City city : cities) {
+		for (City city : cityRepository.findAll()) {
 			Map<String, String> hm = new LinkedHashMap<>();
 			hm.put("id", String.valueOf(city.getId()));
 			hm.put("name", city.getName());
@@ -114,11 +113,10 @@ public class AdminService {
 	
 	//view all areas
 	public List<Map<String, String>> viewAllAreas() {
-		List<Area> areas = areaRepository.findAll();
 		
 		List<Map<String, String>> result = new ArrayList<>();
 		
-		for (Area area : areas) {
+		for (Area area : areaRepository.findAll()) {
 			Map<String, String> hm = new LinkedHashMap<>();
 			hm.put("id", String.valueOf(area.getId()));
 			hm.put("name", area.getAreaName());
@@ -132,11 +130,9 @@ public class AdminService {
 	public List<Map<String, String>> viewAreaByCityName(String cityName) {
 		City city = cityRepository.findByCity(cityName);
 		
-		List<Area> areas = areaRepository.findAreaByCity(city);
-		
 		List<Map<String, String>> result = new ArrayList<>();
 		
-		for (Area area : areas) {
+		for (Area area : areaRepository.findAreaByCity(city)) {
 			Map<String, String> hm = new LinkedHashMap<>();
 			hm.put("city_name", area.getCity().getName());
 			hm.put("areaId", String.valueOf(area.getId()));
