@@ -1,25 +1,14 @@
 package com.example.demo.services;
 
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Area;
-import com.example.demo.entity.Bill;
-import com.example.demo.entity.Consumer;
-import com.example.demo.entity.ConsumerType;
-import com.example.demo.repositories.AreaRepository;
-import com.example.demo.repositories.BillRepository;
-import com.example.demo.repositories.ConsumerRepository;
-import com.example.demo.repositories.ConsumerTypeRepository;
+import com.example.demo.entity.*;
+import com.example.demo.repositories.*;
 
 @Service
 public class ConsumerService {
@@ -36,7 +25,9 @@ public class ConsumerService {
 	@Autowired
 	BillRepository billRepository;
 	
+	//function for registration of consumer
 	public void registration(String email, String name, Integer area_id, Integer consumer_type_id, String password) {
+		//will take area_id and consumer_type_id from dropdown, so no need of exception handling
 		Area area = areaRepository.getById(area_id);
 		ConsumerType ct = consumerTypeRepository.getById(consumer_type_id);
 		
@@ -45,7 +36,7 @@ public class ConsumerService {
 		consumerRepository.save(consumer);
 	}
 	
-	
+	//function for consumer Login
 	public ResponseEntity<String> consumerLogin(Consumer consumer) {
 		if(consumerRepository.findById(consumer.getEmail()).isPresent()) {
 			if(consumerRepository.findById(consumer.getEmail()).get().getPassword().equals(Base64.getEncoder().encodeToString(consumer.getPassword().getBytes()))) {
@@ -59,6 +50,7 @@ public class ConsumerService {
 		}
 	}
 	
+	//function if user wants to remove their account
 	public ResponseEntity<String> removeAccount(String email){
 		if(consumerRepository.findById(email).isPresent()) {
 			if((billRepository.findByEmail(new Consumer(email))).size() > 0){
@@ -73,7 +65,7 @@ public class ConsumerService {
 		return new ResponseEntity<String>("You are not logged in. Log In First", HttpStatus.BAD_REQUEST);
 	}
 	
-	//To change consumer name
+	//To update consumer name, take email from session
 	public ResponseEntity<String> updateName(String email, String name){
 		for (Consumer c : consumerRepository.findAll()) {
 			if(c.getEmail().equals(email)) {
@@ -85,7 +77,7 @@ public class ConsumerService {
 		return new ResponseEntity<String>("You are not logged in. Please Log In.", HttpStatus.NOT_FOUND);
 	}
 	
-	//To update consumer password
+	//To update consumer password, take email from session
 	public ResponseEntity<String> updatePassword(String email, String password){
 		for (Consumer c : consumerRepository.findAll()) {
 			if(c.getEmail().equals(email)) {

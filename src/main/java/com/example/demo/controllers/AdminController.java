@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Admin;
+import com.example.demo.entity.Area;
 import com.example.demo.entity.Bill;
 import com.example.demo.entity.City;
 import com.example.demo.entity.Consumer;
@@ -52,17 +53,17 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin/city")
-	public ResponseEntity<HashMap<Integer, String>> viewCity() {
+	public List<Map<String, String>> viewCities() {
 		return adminService.viewAllCities();
 	}
 	
 	@GetMapping("/admin/area")
-	public ResponseEntity<HashMap<Integer, String>> viewArea() {
+	public List<Map<String, String>> viewAreas() {
 		return adminService.viewAllAreas();
 	}
 	
 	@GetMapping("/admin/area/{city_name}")
-	public ResponseEntity<HashMap<Integer, String>> viewAreaByCityName(@PathVariable String city_name) {
+	public List<Map<String, String>> viewAreaByCityName(@PathVariable String city_name) {
 		return adminService.viewAreaByCityName(city_name);
 	}
 	
